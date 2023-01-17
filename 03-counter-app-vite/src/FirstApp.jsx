@@ -1,7 +1,11 @@
+const getName = () => {
+    return "Vanesa V."
+}
+
 export const FirstApp = () => {
     return (
         <>
-            <h1>Vanesa's First App</h1>
+            <h1>{ getName() }</h1>
             <p>Soy un subtitulo</p>
         </>
     );
