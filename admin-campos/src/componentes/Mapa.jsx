@@ -1,19 +1,12 @@
 import React, { useState,  useCallback } from 'react';
 import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
 
-export const Mapa = ({latLng}) => {
+export const Mapa = ({onSetGeom}) => {
 //  console.log(latLng);
-  const [polygon, setPolygon] = useState([]);
-
-  const createPolygonCoords = () => {
-    latLng.split("\n").forEach(element => {
-      setPolygon([...polygon, "new google.maps.LatLng(" + element + ")"]);
-    }
-
-    );
-  }
-  //createPolygonCoords();
-  console.log(polygon);
+  const [coordenadas, setCoordenadas] = useState([[29.37081,-111.30189],[29.17015,-111.35099],[29.20282,-110.95376]]);
+  const [coords, setCoords] = useState([]);
+  const [polygonData, setPolygonData] = useState([]);
+ 
 
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
@@ -31,17 +24,24 @@ export const Mapa = ({latLng}) => {
     zoom: 7,
     center: center
   };
-
-  const onLoad = useCallback((map) => {
+  
+  const onLoad = useCallback((map) => {  
     const bounds = new window.google.maps.Map(document.getElementById('mapa'),mapOptions);
     //map.fitBounds(bounds);
 
     // Polygon Coordinates
-    const triangleCoords = [
+    const triangleCoords = coordenadas.map( (puntos) => 
+      //console.log(puntos, index)
+      new google.maps.LatLng(puntos[0], puntos[1]),
+    );
+
+    //console.log(triangleCoords);
+
+    /* const triangleCoords = [
     new google.maps.LatLng(29.37081,-111.30189),
     new google.maps.LatLng(29.17015,-111.35099),
     new google.maps.LatLng(29.20282,-110.95376)
-  ];
+  ]; */
 
   // Styling & Controls
   const myPolygon = new google.maps.Polygon({
@@ -61,19 +61,23 @@ export const Mapa = ({latLng}) => {
     google.maps.event.addListener(myPolygon.getPath(), "insert_at", getPolygonCoords);
     //google.maps.event.addListener(myPolygon.getPath(), "remove_at", getPolygonCoords);
     google.maps.event.addListener(myPolygon.getPath(), "set_at", getPolygonCoords);
-
+   
     //Display Coordinates below map
-    function getPolygonCoords() {
+     function getPolygonCoords() {
+      
       const len = myPolygon.getPath().getLength(); //3
-      let polygonData = "";
+      //console.log(myPolygon.getPath().getAt(0).toUrlValue(5));
+      const newArr = [];
       for (let i = 0; i < len; i++) {
-        polygonData += myPolygon.getPath().getAt(i).toUrlValue(5);
-        //Use this one instead if you want to get rid of the wrap > new google.maps.LatLng(),
-        //htmlStr += "" + myPolygon.getPath().getAt(i).toUrlValue(5);
+       //setPolygonData([...polygonData, [myPolygon.getPath().getAt(i).toUrlValue(5)] ]);
+       newArr.push(myPolygon.getPath().getAt(i).toUrlValue(5));
       }
-      onSetPolygon(polygonData);
+      setPolygonData(newArr);
     }
   }, [])
+
+  console.log(polygonData);
+  onSetGeom(polygonData);
 
   const onUnmount = useCallback((map) => {
     setMap(null)

@@ -1,4 +1,5 @@
 import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
+import { useState, useCallback } from 'react';
 
 export const DibujaPoligono = () => {
     const { isLoaded } = useJsApiLoader({
@@ -9,19 +10,19 @@ export const DibujaPoligono = () => {
       const [map, setMap] = useState(null);
     
       const center = {
-        lat: 29.3333300,
-        lng: -110.6666700
+        lat: 24.886,
+        lng:  -70.268
       };
     
       var mapOptions = {
-        zoom: 7,
+        zoom: 5,
         center: center
       };
     
       const onLoad = useCallback((map) => {
         const bounds = new window.google.maps.Map(document.getElementById('mapa'),mapOptions);
         //map.fitBounds(bounds);
-    
+        console.log(google.maps);
         // Polygon Coordinates
         const triangleCoords = [
         new google.maps.LatLng(25.774,-80.19),
