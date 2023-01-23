@@ -4,7 +4,6 @@ import { Mapa } from './componentes/Mapa';
 import { DibujaPoligono } from "./componentes/DibujaPoligono";
 
 export const LotesApp = () => {
-    const [latLng, setlatLng] = useState("");
     const [arrGeom, setArrGeom] = useState("");
     const [showPolygon, setShowPolygon] = useState(false);
     
@@ -12,17 +11,14 @@ export const LotesApp = () => {
         setShowPolygon(value);   
     }
 
-    const onSetPolygon = (points) => {
-      setlatLng(points);
-    }
-
+    
     const onSetGeom = (arrPolygons) => {
         setArrGeom(arrPolygons);
     }
     
     return(
         <>
-            <Poligono onSetPolygon={(value)=> onSetPolygon(value)} muestraMapa={(value)=>{muestraMapa(value)}} arrGeom={ arrGeom }/>
+            <Poligono muestraMapa={(value)=>{muestraMapa(value)}} arrGeom={ arrGeom }/>
             {showPolygon ? <DibujaPoligono /> : <Mapa onSetGeom={( value ) => onSetGeom( value )}/>}
         </>
     );

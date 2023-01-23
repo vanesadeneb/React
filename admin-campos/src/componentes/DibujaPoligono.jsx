@@ -2,6 +2,7 @@ import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
 import { useState, useCallback } from 'react';
 
 export const DibujaPoligono = () => {
+  
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
         googleMapsApiKey: "AIzaSyBt4syi8lqaQnExCqRbZfDBAkqoLG_D31g"

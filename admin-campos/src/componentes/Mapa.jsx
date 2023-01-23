@@ -64,7 +64,7 @@ export const Mapa = ({onSetGeom}) => {
    
     //Display Coordinates below map
      function getPolygonCoords() {
-      
+      console.log("polygonCords");
       const len = myPolygon.getPath().getLength(); //3
       //console.log(myPolygon.getPath().getAt(0).toUrlValue(5));
       const newArr = [];
