@@ -1,4 +1,7 @@
 import { useState,useEffect } from "react"
+import config from "../config";
+
+const apiHost = config.api.host
 
 export const NuevoPoligono = ({ muestraFormulario, onSetPolygon, arrGeom }) => {
     console.log("Nuevo Poligono",arrGeom); 
@@ -36,7 +39,7 @@ export const NuevoPoligono = ({ muestraFormulario, onSetPolygon, arrGeom }) => {
             body: JSON.stringify({name: nombre, area: area, geom: "POLYGON((" + geomFormat() + "))"})
         };
 
-        fetch('http://localhost:3000/lotes', requestOptions)
+        fetch(`http://${apiHost}/lotes`, requestOptions)
         .then(response => response.json())
         .then(data => {
             console.log(data);
@@ -46,8 +49,6 @@ export const NuevoPoligono = ({ muestraFormulario, onSetPolygon, arrGeom }) => {
         console.log(nombre, area, geom);
         
         if( nombre.trim().length === 0 || area.trim().length === 0 || geom.trim().length === 0) return;
-        
-        
         
         muestraFormulario(false);
     }

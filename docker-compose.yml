@@ -1,0 +1,15 @@
+version: '3.1'
+
+services:
+  ui:
+    build: ./admin-campos
+    ports:
+      - "5173:5173"
+  db:
+    build: ./docker-lotes-postgis/postgis
+    ports:
+      - "5432:5432"
+  api:
+    build: ./api-lotes
+    ports:
+      - "4000:4000"

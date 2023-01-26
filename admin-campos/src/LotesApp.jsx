@@ -19,7 +19,11 @@ export const LotesApp = () => {
     return(
         <>
             <Poligono muestraMapa={(value)=>{muestraMapa(value)}} arrGeom={ arrGeom }/>
-            {showPolygon ? <DibujaPoligono /> : <Mapa onSetGeom={( value ) => onSetGeom( value )}/>}
+            {
+                showPolygon ? 
+                    <DibujaPoligono /> 
+                    : <Mapa onSetGeom={( value ) => onSetGeom( value )}/>
+            }
         </>
     );
 }

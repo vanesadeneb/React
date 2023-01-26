@@ -1,14 +1,20 @@
 const Pool = require('pg').Pool;
 const pool = new Pool({
   user: 'postgres',
-  host: '172.22.0.2',
+  password: 'postgres',
+  host: 'db',
   database: 'locations',
   port: 5432,
 });
 const getLotes = (request, response) => {
   pool.query('SELECT id, area, name,ST_AsText(geom) as geom FROM lotes ORDER BY id ASC', (error, results) => {
     if (error) {
-      throw error;
+      //throw error;
+      console.log(error);
+      response.status(500).json({
+        message: "error"
+      })
+      return;
     }
     response.status(200).json(results.rows);
   });

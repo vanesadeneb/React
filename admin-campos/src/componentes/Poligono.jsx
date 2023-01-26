@@ -1,7 +1,10 @@
 import React from "react";
 import { useEffect, useState } from "react";
+import config from "../config";
 import { DibujaPoligono } from "./DibujaPoligono";
 import { NuevoPoligono } from "./NuevoPoligono";
+
+const apiHost = config.api.host;
 
 export const Poligono = ({muestraMapa, arrGeom}) => {
     
@@ -9,13 +12,13 @@ export const Poligono = ({muestraMapa, arrGeom}) => {
     const [nuevo, setNuevo] = useState(false);
     
     useEffect(() => {
-        fetch("http://localhost:3000/lotes")
+        fetch(`http://${apiHost}/lotes`)
         .then(response => response.json())
         .then(lotes => setPoligono(lotes));
     },[]);
 
     const onSetPolygon = (onNewField, deleted=false) => {
-        console.log("onSetPolygon");
+
         if(!deleted){
             setPoligono([onNewField, ...poligono]);
 
@@ -23,7 +26,7 @@ export const Poligono = ({muestraMapa, arrGeom}) => {
             const filtrarLote = poligono.filter(
                 (element) => element.id !== onNewField.id
             );
-            console.log("filtrar lote", filtrarLote);
+
             setPoligono(filtrarLote);
         }
         
@@ -40,10 +43,9 @@ export const Poligono = ({muestraMapa, arrGeom}) => {
             body: JSON.stringify({id: id})
         };
 
-        fetch('http://localhost:3000/lotes/'+ id, requestOptions)
+        fetch(`http://${apiHost}/lotes/${id}`, requestOptions)
         .then(response => response.json())
         .then(data => {
-            console.log("after delete");
             onSetPolygon({id}, true);
         });
         

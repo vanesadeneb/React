@@ -22,8 +22,8 @@ export const DibujaPoligono = () => {
     
       const onLoad = useCallback((map) => {
         const bounds = new window.google.maps.Map(document.getElementById('mapa'),mapOptions);
-        //map.fitBounds(bounds);
         console.log(google.maps);
+        
         // Polygon Coordinates
         const triangleCoords = [
         new google.maps.LatLng(25.774,-80.19),
@@ -35,7 +35,7 @@ export const DibujaPoligono = () => {
       // Styling & Controls
       const myPolygon = new google.maps.Polygon({
         paths: triangleCoords,
-        draggable: true, // turn off if it gets annoying
+        draggable: true,
         editable: true,
         strokeColor: '#FF0000',
         strokeOpacity: 0.8,
