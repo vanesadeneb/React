@@ -10,8 +10,8 @@ Al seleccionar un elemento de la lista el mapa debe centrarse en el polígono re
 - CSS3
 - Flexbox
 - SQL
-    -Postgres
-    -Postgis
+  -Postgres
+  -Postgis
 -Express.js
 -Docker
 
