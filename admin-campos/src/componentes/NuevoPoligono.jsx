@@ -1,6 +1,6 @@
 import { useState,useEffect } from "react"
 import { geomFormat } from "../helpers/geoFormat";
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 import config from "../config";
 
 const apiHost = config.api.host;
@@ -27,7 +27,7 @@ export const NuevoPoligono = ({ muestraFormulario, onSetPolygon, arrGeom }) => {
         event.preventDefault();
         
         if( nombre.trim().length === 0 || area.trim().length === 0 || geom.trim().length === 0) {
-            Swal.fire("Favor de llenar todos lo campos")
+            Swal.fire("Favor de llenar todos lo campos");
         } else {
             const requestOptions = {
                 method: 'POST',
@@ -42,8 +42,7 @@ export const NuevoPoligono = ({ muestraFormulario, onSetPolygon, arrGeom }) => {
                 onSetPolygon({id: data.id, name: nombre, area: area, geom: geom});
             });
             
-            
-            console.log(muestraFormulario(false));
+            muestraFormulario(false);
         }
         
     }

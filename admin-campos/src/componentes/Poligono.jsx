@@ -3,11 +3,12 @@ import { useEffect, useState } from "react";
 import config from "../config";
 import { DibujaPoligono } from "./DibujaPoligono";
 import { NuevoPoligono } from "./NuevoPoligono";
+import Swal from 'sweetalert2';
 
 const apiHost = config.api.host;
 
 export const Poligono = ({muestraMapa, arrGeom}) => {
-    
+   
     const [poligono, setPoligono] = useState([]);
     const [nuevo, setNuevo] = useState(false);
     
@@ -36,17 +37,32 @@ export const Poligono = ({muestraMapa, arrGeom}) => {
     }
 
     const eliminar = (id) =>{
-        const requestOptions = {
-            method: 'DELETE',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({id: id})
-        };
-
-        fetch(`http://${apiHost}/lotes/${id}`, requestOptions)
-        .then(response => response.json())
-        .then(data => {
-            onSetPolygon({id}, true);
-        });
+        Swal.fire({
+            title: '¿Desea eliminar este registro?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si, eliminar'
+          }).then((result) => {
+            if (result.isConfirmed) {
+                const requestOptions = {
+                    method: 'DELETE',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({id: id})
+                };
+        
+                fetch(`http://${apiHost}/lotes/${id}`, requestOptions)
+                .then(response => response.json())
+                .then(data => {
+                    onSetPolygon({id}, true);
+                    muestraMapa(false);
+                });
+                Swal.fire(
+                    'El registro ha sido borrado'
+                )
+            }
+          })
         
     }
 
