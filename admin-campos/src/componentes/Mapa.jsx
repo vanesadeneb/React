@@ -31,7 +31,6 @@ export const Mapa = ({onSetGeom}) => {
 
     // Polygon Coordinates
     const triangleCoords = coordenadas.map( (puntos) => 
-      //console.log(puntos, index)
       new google.maps.LatLng(puntos[0], puntos[1]),
     );
 

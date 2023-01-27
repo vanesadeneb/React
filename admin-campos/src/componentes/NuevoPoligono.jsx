@@ -1,22 +1,15 @@
 import { useState,useEffect } from "react"
+import { geomFormat } from "../helpers/geoFormat";
+import Swal from 'sweetalert2'
 import config from "../config";
 
-const apiHost = config.api.host
+const apiHost = config.api.host;
 
 export const NuevoPoligono = ({ muestraFormulario, onSetPolygon, arrGeom }) => {
-    console.log("Nuevo Poligono",arrGeom); 
+   
     const [nombre, setNombre] = useState("");
     const [area, setArea] = useState("");
     const [geom, setGeom] = useState(arrGeom.toString());
-
-    
-    const geomFormat = () => {
-        const newFormat =  arrGeom.map(element => 
-            element.replace(",", " ")
-        );
-        newFormat.push(newFormat[0]);
-        return newFormat;
-    }
    
     useEffect(() => {
         setGeom(arrGeom.toString());
@@ -33,24 +26,26 @@ export const NuevoPoligono = ({ muestraFormulario, onSetPolygon, arrGeom }) => {
     const onSubmit = event => {
         event.preventDefault();
         
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({name: nombre, area: area, geom: "POLYGON((" + geomFormat() + "))"})
-        };
-
-        fetch(`http://${apiHost}/lotes`, requestOptions)
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
-            onSetPolygon({id: data.id, name: nombre, area: area, geom: geom});
-        });
+        if( nombre.trim().length === 0 || area.trim().length === 0 || geom.trim().length === 0) {
+            Swal.fire("Favor de llenar todos lo campos")
+        } else {
+            const requestOptions = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({name: nombre, area: area, geom: "POLYGON((" + geomFormat(arrGeom) + "))"})
+            };
+    
+            fetch(`http://${apiHost}/lotes`, requestOptions)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                onSetPolygon({id: data.id, name: nombre, area: area, geom: geom});
+            });
+            
+            
+            console.log(muestraFormulario(false));
+        }
         
-        console.log(nombre, area, geom);
-        
-        if( nombre.trim().length === 0 || area.trim().length === 0 || geom.trim().length === 0) return;
-        
-        muestraFormulario(false);
     }
 
     return (
@@ -73,6 +68,7 @@ export const NuevoPoligono = ({ muestraFormulario, onSetPolygon, arrGeom }) => {
                 readOnly
             ></textarea>
             <button id="guardar">Guardar</button>
+            
         </form>
     );
 }

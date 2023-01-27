@@ -21,7 +21,6 @@ export const Poligono = ({muestraMapa, arrGeom}) => {
 
         if(!deleted){
             setPoligono([onNewField, ...poligono]);
-
         }else{
             const filtrarLote = poligono.filter(
                 (element) => element.id !== onNewField.id
@@ -51,7 +50,6 @@ export const Poligono = ({muestraMapa, arrGeom}) => {
         
     }
 
-    console.log("poligono value:",poligono);
     return (
         <aside>
             <button onClick={ muestraFormulario }><i className="fa-solid fa-circle-plus"></i>Nuevo Lote</button>
@@ -63,14 +61,14 @@ export const Poligono = ({muestraMapa, arrGeom}) => {
     />}
             
             <ul id="lista de poligonos">
-                { poligono.map( campo => {
-                    return <li key={campo.id} onClick={() => muestraMapa(true)}>
+                { poligono.map( ({id, name, area}) => {
+                    return <li key={id} onClick={() => muestraMapa(true)}>
                                 <i className="fa-solid fa-location-dot"></i> 
                                 <span>
-                                    <p id="nombre">{ campo.name }</p>
-                                    <p id="area">{ campo.area }</p>
+                                    <p id="nombre">{ name }</p>
+                                    <p id="area">{ area }</p>
                                 </span>
-                                <button id="delete-button" onClick={ () => eliminar(campo.id) }>
+                                <button id="delete-button" onClick={ () => eliminar(id) }>
                                     <i className="fa-solid fa-trash"></i>
                                 </button>
                             </li>
