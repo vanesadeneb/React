@@ -1,7 +1,21 @@
 import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
 import { useState, useCallback } from 'react';
 
-export const DibujaPoligono = () => {
+const center = {
+  lat: 29.3333300,
+  lng: -110.6666700
+};
+
+const mapOptions = {
+  zoom: 7,
+  center: center
+};
+
+export const DibujaPoligono = ({ poligonos }) => {
+  
+  //const [coordenadas, setCoordenadas] = useState(poligonos.geom);
+  const transformandoCadena = poligonos[0].geom.slice(poligonos[0].geom.indexOf("(") + 2, poligonos[0].geom.indexOf(")") - 2);
+  const coordenadas = transformandoCadena.split(",");
   
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
@@ -10,27 +24,18 @@ export const DibujaPoligono = () => {
     
       const [map, setMap] = useState(null);
     
-      const center = {
-        lat: 24.886,
-        lng:  -70.268
-      };
-    
-      var mapOptions = {
-        zoom: 5,
-        center: center
-      };
-    
       const onLoad = useCallback((map) => {
         const bounds = new window.google.maps.Map(document.getElementById('mapa'),mapOptions);
-        console.log(google.maps);
+        //console.log(google.maps);
         
         // Polygon Coordinates
-        const triangleCoords = [
-        new google.maps.LatLng(25.774,-80.19),
-        new google.maps.LatLng(18.466,-66.118),
-        new google.maps.LatLng(32.321,-64.757),
-        new google.maps.LatLng(25.774,-80.19)
-      ];
+        const triangleCoords = coordenadas.map( (puntos) => {
+          const LatLng = puntos.split(" ");
+          return new google.maps.LatLng(Number(LatLng[0]), Number(LatLng[1]))
+          }
+        );
+        
+        //console.log(triangleCoords);
     
       // Styling & Controls
       const myPolygon = new google.maps.Polygon({

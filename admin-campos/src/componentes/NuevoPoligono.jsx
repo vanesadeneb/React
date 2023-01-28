@@ -27,7 +27,7 @@ export const NuevoPoligono = ({ muestraFormulario, onSetPolygon, arrGeom }) => {
         event.preventDefault();
         
         if( nombre.trim().length === 0 || area.trim().length === 0 || geom.trim().length === 0) {
-            Swal.fire("Favor de llenar todos lo campos");
+            Swal.fire("Favor de llenar todos los campos");
         } else {
             const requestOptions = {
                 method: 'POST',

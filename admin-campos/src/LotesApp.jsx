@@ -7,7 +7,8 @@ import { useEffect } from "react";
 export const LotesApp = () => {
     const [arrGeom, setArrGeom] = useState("");
     const [showPolygon, setShowPolygon] = useState(false);
-    
+    const [poligonos, setPoligonos] = useState([]);
+
     const muestraMapa = (value) => {
         setShowPolygon(value);   
     }
@@ -19,13 +20,20 @@ export const LotesApp = () => {
     useEffect( () => {
 
     }, [showPolygon]);
-    console.log(showPolygon);
+    
     return(
         <>
-            <Poligono muestraMapa={(value)=>{muestraMapa(value)}} arrGeom={ arrGeom }/>
+            <Poligono 
+                muestraMapa={(value)=>{muestraMapa(value)}} 
+                arrGeom={ arrGeom } 
+                onSetPolygon={(value) => {onSetPolygon(value)}} 
+                poligonos={ poligonos } 
+                setPoligonos={ setPoligonos }
+            />
+
             {
                 showPolygon ? 
-                    <DibujaPoligono /> 
+                    <DibujaPoligono poligonos={ poligonos }/> 
                     : <Mapa onSetGeom={( value ) => onSetGeom( value )}/>
             }
         </>

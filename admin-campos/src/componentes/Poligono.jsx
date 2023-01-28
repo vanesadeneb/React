@@ -7,36 +7,36 @@ import Swal from 'sweetalert2';
 
 const apiHost = config.api.host;
 
-export const Poligono = ({muestraMapa, arrGeom}) => {
+export const Poligono = ({poligonos, setPoligonos, muestraMapa, arrGeom}) => {
    
-    const [poligono, setPoligono] = useState([]);
+   // const [poligono, setPoligono] = useState([]);
     const [nuevo, setNuevo] = useState(false);
     
-    useEffect(() => {
+     useEffect(() => {
         fetch(`http://${apiHost}/lotes`)
         .then(response => response.json())
-        .then(lotes => setPoligono(lotes));
-    },[]);
+        .then(lotes => setPoligonos(lotes));
+    },[]); 
 
-    const onSetPolygon = (onNewField, deleted=false) => {
+     const onSetPolygon = (onNewField, deleted=false) => {
 
         if(!deleted){
-            setPoligono([onNewField, ...poligono]);
+            setPoligonos([onNewField, ...poligonos]);
         }else{
-            const filtrarLote = poligono.filter(
+            const filtrarLote = poligonos.filter(
                 (element) => element.id !== onNewField.id
             );
 
-            setPoligono(filtrarLote);
+            setPoligonos(filtrarLote);
         }
         
-    }
+    } 
 
     const muestraFormulario = (value) => {
         setNuevo(value);
     }
 
-    const eliminar = (id) =>{
+     const eliminar = (id) =>{
         Swal.fire({
             title: '¿Desea eliminar este registro?',
             icon: 'warning',
@@ -64,7 +64,7 @@ export const Poligono = ({muestraMapa, arrGeom}) => {
             }
           })
         
-    }
+    } 
 
     return (
         <aside>
@@ -74,10 +74,10 @@ export const Poligono = ({muestraMapa, arrGeom}) => {
                         muestraFormulario={ (value) => muestraFormulario(value) } 
                         onSetPolygon={(value)=> onSetPolygon(value)} 
                         arrGeom={ arrGeom }
-    />}
+            />}
             
             <ul id="lista de poligonos">
-                { poligono.map( ({id, name, area}) => {
+                { poligonos.map( ({id, name, area}) => {
                     return <li key={id} onClick={() => muestraMapa(true)}>
                                 <i className="fa-solid fa-location-dot"></i> 
                                 <span>

@@ -2,37 +2,34 @@ import React, { useState,  useCallback } from 'react';
 import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
 import config from '../config';
 
+const center = {
+  lat: 29.3333300,
+  lng: -110.6666700
+};
+
+const mapOptions = {
+  zoom: 7,
+  center: center
+};
+
 export const Mapa = ({onSetGeom}) => {
 
-  const [coordenadas, setCoordenadas] = useState([[29.37081,-111.30189],[29.17015,-111.35099],[29.20282,-110.95376]]);
-  const [coords, setCoords] = useState([]);
   const [polygonData, setPolygonData] = useState([]);
- 
-
+  const [map, setMap] = useState(null);
   const { isLoaded } = useJsApiLoader({
     id: config.maps.id,
     googleMapsApiKey: config.maps.googleMapsApiKey
   })
-
-  const [map, setMap] = useState(null);
-
-  const center = {
-    lat: 29.3333300,
-    lng: -110.6666700
-  };
-
-  var mapOptions = {
-    zoom: 7,
-    center: center
-  };
   
   const onLoad = useCallback((map) => {  
     const bounds = new window.google.maps.Map(document.getElementById('mapa'),mapOptions);
 
     // Polygon Coordinates
-    const triangleCoords = coordenadas.map( (puntos) => 
-      new google.maps.LatLng(puntos[0], puntos[1]),
-    );
+    const triangleCoords = [
+      new google.maps.LatLng(29.37081,-111.30189),
+      new google.maps.LatLng(29.17015,-111.35099),
+      new google.maps.LatLng(29.20282,-110.95376)
+    ];
 
   // Styling & Controls
   const myPolygon = new google.maps.Polygon({
